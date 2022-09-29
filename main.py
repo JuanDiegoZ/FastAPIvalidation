@@ -1,28 +1,66 @@
 #python.
-from ast import Lt
-from operator import le, lt
-import string
+import email
+from enum import Enum
 from typing import Optional
 #Pydantic.
 from pydantic import BaseModel
+from pydantic import Field
+from pydantic import EmailStr
 #FastAPI
 from fastapi import FastAPI
 from fastapi import Body, Query, Path
 
 app = FastAPI()
 #Models
+
+class Hair_color(Enum):
+    blue = "blue"
+    black = "black"
+    white = "white"
+    brown = "brown"
+    red = "red"
+    other = "other"
+    
 class Location(BaseModel):
-    city: str
-    state: str
-    country: str
+    city: str = Field(
+        ...,
+        min_length=1,
+        max_length=100
+        )
+    state: str = Field(
+        ...,
+        min_length=1,
+        max_length=100
+    )
+    country: str = Field(
+        ...,
+        min_length=1,
+        max_length=100)
     
     
 class Person(BaseModel):
-    first_name: str
-    last_name: str
-    age: int
-    weight: Optional[int] = None
-    sex: Optional[str] = None
+    first_name: str = Field(
+        ...,
+        min_length=1,
+        max_length=50
+        )
+    last_name: str = Field(
+        ...,
+        min_length=1,
+        max_length= 50,
+        )
+    age: int =  Field(
+        ...,
+        gt=0,
+        le=150
+    )
+    email: EmailStr = Field(
+        ...,
+        )
+    
+    hair_color: Optional[Hair_color]= Field(default=None)
+    weight: Optional[int] = Field(default=None)
+    sex: Optional[str] = Field(default=None)
     
 
 
