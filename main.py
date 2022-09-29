@@ -1,4 +1,5 @@
 #python.
+from doctest import Example
 import email
 from enum import Enum
 from typing import Optional
@@ -25,17 +26,21 @@ class Location(BaseModel):
     city: str = Field(
         ...,
         min_length=1,
-        max_length=100
+        max_length=100,
+        example="Cajica"
         )
     state: str = Field(
         ...,
         min_length=1,
-        max_length=100
+        max_length=100,
+        example="Cundinamarca"
     )
     country: str = Field(
         ...,
         min_length=1,
-        max_length=100)
+        max_length=100,
+        example="Colombia"
+        )
     
     
 class Person(BaseModel):
@@ -56,6 +61,7 @@ class Person(BaseModel):
     )
     email: EmailStr = Field(
         ...,
+        Example="123mail@mail.com"
         )
     
     hair_color: Optional[Hair_color]= Field(default=None)
@@ -99,14 +105,16 @@ def show_person(
         min_length=1,
         max_length=50,
         title="Person name",
-        description="this parameter is optional, Name of individual" 
+        description="this parameter is optional, Name of individual",
+        example= "Pepe" 
         ),
     age: Optional[int] = Query(
         0,
         gt=0,
         lt=100,
         title="Person age",
-        description="The age is optional, has to be less than 100"
+        description="The age is optional, has to be less than 100",
+        example=20
         )
     ):
     """_summary_
@@ -143,7 +151,8 @@ def update_person(
         ...,
         title="Person ID",
         description="This is the person ID",
-        gt = 0
+        gt = 0,
+        example=123
         ),
     person: Person = Body(...),
     location: Location = Body(...)   
